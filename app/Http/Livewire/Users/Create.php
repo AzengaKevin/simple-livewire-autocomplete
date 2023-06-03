@@ -2,14 +2,18 @@
 
 namespace App\Http\Livewire\Users;
 
-use Illuminate\Support\Collection;
 use Livewire\Component;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Log;
 
 class Create extends Component
 {
+    public $field;
     public $name;
     public $users;
     public $suggestionsFlag;
+
+    protected $listeners = ['setField'];
 
     public function __construct()
     {
@@ -25,6 +29,13 @@ class Create extends Component
     public function updatedName()
     {
         $this->getUsers();
+    }
+
+    public function setField($value)
+    {
+        $this->field = $value;
+
+        info($value);
     }
 
     public function getUsers()
@@ -58,5 +69,13 @@ class Create extends Component
     public function render()
     {
         return view('livewire.users.create');
+    }
+
+    public function submit()
+    {
+        Log::info([
+            "name" => $this->name,
+            "field" => $this->field
+        ]);
     }
 }
